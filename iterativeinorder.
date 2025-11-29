@@ -1,0 +1,49 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+struct Node {
+    int data;
+    struct Node* left;
+    struct Node* right;
+};
+
+struct Node* newNode(int data) {
+    struct Node* temp = (struct Node*)malloc(sizeof(struct Node));
+    temp->data = data;
+    temp->left = temp->right = NULL;
+    return temp;
+}
+
+// Iterative Inorder Traversal using Stack
+void inorderIterative(struct Node* root) {
+    struct Node* stack[100];
+    int top = -1;
+    struct Node* curr = root;
+
+    while (curr != NULL || top != -1) {
+
+        while (curr != NULL) {
+            stack[++top] = curr;     // push
+            curr = curr->left;
+        }
+
+        curr = stack[top--];         // pop
+        printf("%d ", curr->data);   // print node
+
+        curr = curr->right;          // move right
+    }
+}
+
+int main() {
+
+    struct Node* root = newNode(1);
+    root->left = newNode(2);
+    root->right = newNode(3);
+    root->left->left = newNode(4);
+    root->left->right = newNode(5);
+
+    printf("Inorder Traversal: ");
+    inorderIterative(root);
+
+    return 0;
+}
